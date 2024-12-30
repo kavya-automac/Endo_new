@@ -244,7 +244,8 @@ def patient_save_report(request):
         )
 
     # Local file path
-    file_path = os.path.join(r'C:/Users/DeLL/Downloads/', str(pdf_file_path1))
+    # file_path = os.path.join(r'C:/Users/DeLL/Downloads/', str(pdf_file_path1))
+    file_path = os.path.join(r'C:/home/pi/Downloads/', str(pdf_file_path1))
     print('Full local file path:', file_path)
     print('Full local file path:', type(file_path))
 
