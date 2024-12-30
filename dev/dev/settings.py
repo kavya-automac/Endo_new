@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-s$#q5wkjokid5x&vl+l3mdfj+t#iozpxd52d&g+bt2lut00sl2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,16 +74,7 @@ CORS_ALLOW_HEADERS=[
 
 ]
 
-
-
 CSRF_TRUSTED_ORIGINS=["http://127.0.0.1:8000"]
-
-
-
-
-
-
-
 
 
 ROOT_URLCONF = 'dev.urls'
@@ -91,7 +82,9 @@ ROOT_URLCONF = 'dev.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'build')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -164,9 +157,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = 'static/'
-# STATICFILES_DIRS=[
-#     os.path.join(BASE_DIR,'build/static')
-# ]
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'build/static')
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
