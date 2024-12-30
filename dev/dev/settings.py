@@ -107,9 +107,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PASSWORD': 'Sunil2662',
+        'HOST': 'ytdatabase.c98k4qo8soa0.ap-south-1.rds.amazonaws.com',
         'PORT': '5432',
     },
     'fallback': {
