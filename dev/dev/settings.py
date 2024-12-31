@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'dev.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'endoscopy',
         'USER': 'pi',
         'PASSWORD': 'raspberry',
         'HOST': 'localhost',
