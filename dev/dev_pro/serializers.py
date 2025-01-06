@@ -121,10 +121,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data.get('first_name', '')  # Use first_name here
         )
+        user.save()
 
         # Create the UserDetails instance linked to the User
-        UserDetails.objects.create(user_id=user, speciality=speciality, mobile_no=mobile_no)
-
+        details=UserDetails.objects.create(user_id=user, speciality=speciality, mobile_no=mobile_no)
+        details.save()
         return user
 
 
