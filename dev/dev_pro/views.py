@@ -446,8 +446,10 @@ def patient_save_report(request):
 
     destination_path = os.path.join(settings.MEDIA_ROOT, 'reports', str(pdf_file_path1))
     print("destination_path",destination_path)
+    print('source_path',source_path)
     # Check if the file exists locally
     if not os.path.exists(source_path):
+        print("not exists")
         return JsonResponse({"status": "The provided file path does not exist."}, status=400)
 
     # Move the file to the media directory
