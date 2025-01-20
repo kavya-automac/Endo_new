@@ -18,5 +18,7 @@ urlpatterns = [
     path('patient_save_report/', patient_save_report,name='patient_save_report'),
     path('send-email/', send_email, name='send-email'),
     path('video_feed/', video_feed, name='video_feed'),
+    path('user_details_update/', user_details_update, name='user_details_update'),
+    path('patient_details_update/', patient_details_update, name='patient_details_update'),
 
 ]

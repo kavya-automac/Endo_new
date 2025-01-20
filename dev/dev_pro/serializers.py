@@ -54,12 +54,12 @@ class ReportSerializers(serializers.ModelSerializer):
 class PatientDetailSerializers(serializers.ModelSerializer):
     class Meta:
         model = Patientsdetails
-        fields = '__all__'
+        fields = ['id','patient_name','age','gender','procedure','mobile','patient_email','referred','updated_at']
 
 class newPatientDetailSerializers(serializers.ModelSerializer):
     class Meta:
         model = NewPatientsdetails
-        fields = '__all__'
+        fields = ['id','patient_name','age','gender','procedure','mobile','patient_email','referred','updated_at']
 
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(error_messages={'blank': 'username_field_cannot_be_blank.'},required=True)
