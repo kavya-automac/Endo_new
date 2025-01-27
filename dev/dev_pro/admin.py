@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Patientreports,Patientsdetails,UserDetails,NewPatientreports,NewPatientsdetails
+from .models import (Patientreports,Patientsdetails,UserDetails,
+                     NewPatientreports,NewPatientsdetails,video_store,New_video_store)
 
 class PatientsdetailsPro(admin.ModelAdmin):
     list_display = ('id','patient_name','age','gender','procedure','mobile','patient_email','referred')
@@ -36,6 +37,17 @@ class NewPatientreportPro(admin.ModelAdmin):
         return obj.patient_details_id.patient_name
     get_patient_name.short_description = 'New Patient Name'
 
+
+@admin.register(video_store)
+class video_store_Admin(admin.ModelAdmin):
+    list_display = ['id','video_file']
+
+
+
+#New_video_store
+@admin.register(New_video_store)
+class New_video_store_Admin(admin.ModelAdmin):
+    list_display = ['id','video_file']
 
 # Register your models here.
 admin.site.register(Patientsdetails,PatientsdetailsPro)

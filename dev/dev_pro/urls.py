@@ -20,5 +20,9 @@ urlpatterns = [
     path('video_feed/', video_feed, name='video_feed'),
     path('user_details_update/', user_details_update, name='user_details_update'),
     path('patient_details_update/', patient_details_update, name='patient_details_update'),
+    path('user_details_update/', user_details_update, name='user_details_update'),
+    path('patient_details_update/', patient_details_update, name='patient_details_update'),
+    path('internet_test/', internet_test, name='internet_test'),
+    path('wifi_test_rpi/', wifi_test_rpi, name='wifi_test_rpi'),
 
 ]

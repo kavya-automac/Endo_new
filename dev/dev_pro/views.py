@@ -1,4 +1,5 @@
 import datetime
+import socket
 
 import requests
 from .models import *
@@ -675,16 +676,26 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                # user_id = User.objects.get(username=request.user)
-                return Response({"status": "user_validated","user_id":user.id}, status=status.HTTP_200_OK)
+                user_data = User.objects.get(id=user.id)
+                print('user_data', user_data)
+                userdetails = UserDetails.objects.get(user_id=user.id)
+                print('userdetails', userdetails)
+
+                result = {
+                    "user_id": user.id,
+                    "username": user_data.username,
+                    "email": user_data.email,
+                    "mobile_no": userdetails.mobile_no,
+                    "Speciality": userdetails.speciality
+                }
+                print('result', result)
+
+                return Response({"status": "user_validated", "user_id": user.id, "user_details_data": result},
+                                status=status.HTTP_200_OK)
             else:
                 return Response({"status": "unauthorized_user"}, status=status.HTTP_401_UNAUTHORIZED)
 
-
         return Response({'status': 'Invalid_Credentials'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 
 @api_view(['POST'])
@@ -1183,6 +1194,26 @@ def patient_details_update(request):
         return JsonResponse({"status": "error", "message": str(e)})
 
 
+
+@api_view(['GET'])
+def internet_test(request):
+    try:
+        socket.create_connection(("8.8.8.8", 53), timeout=3)
+        return JsonResponse({"message": "connected"})
+    except Exception as e:
+        return JsonResponse({"message": "disconnected","status": str(e)})
+
+
+@api_view(['POST'])
+def wifi_test_rpi(request):
+    sid_data=request.data.get('sid')
+    password_data=request.data.get('password')
+    wifi_con_status = True
+    try:
+        if wifi_con_status:
+            return JsonResponse({"message": "connected"})
+    except Exception as e:
+        return JsonResponse({"message": "disconnected","status": str(e)})
 
 
 
