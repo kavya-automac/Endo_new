@@ -998,11 +998,11 @@ def patient_list(request):
         return JsonResponse({"status": "error", "message": str(e)})
 
 
-
-@api_view(['POST'])
-def logout_view(request):
-        logout(request)
-        return Response({"message": "Successfully_logged_out."}, status=status.HTTP_200_OK)
+#
+# @api_view(['POST'])
+# def logout_view(request):
+#         logout(request)
+#         return Response({"message": "Successfully_logged_out."}, status=status.HTTP_200_OK)
 
 
 
