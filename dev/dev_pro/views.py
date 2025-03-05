@@ -686,9 +686,10 @@ def login_view(request):
                     "username": user_data.username,
                     "email": user_data.email,
                     "mobile_no": userdetails.mobile_no,
-                    "Speciality": userdetails.speciality
+                    "Speciality": userdetails.speciality,
+                    "first_name": user_data.first_name
                 }
-                print('result', result)
+                # print('result', result)
 
                 return Response({"status": "user_validated", "user_id": user.id, "user_details_data": result},
                                 status=status.HTTP_200_OK)
@@ -1087,6 +1088,7 @@ def user_details_update(request):
             email = request.data.get('email')
             mobile = request.data.get('mobile_no')
             speciality = request.data.get('Speciality')
+            firstname = request.data.get('first_name')
 
             # Validate required fields
             if not all([user_id, username, email, mobile, speciality]):
@@ -1100,6 +1102,7 @@ def user_details_update(request):
                 user = User.objects.get(id=user_id)
                 user.username = username
                 user.email = email
+                user.first_name = firstname
                 user.save()
 
                 # Update or create related user details
@@ -1108,7 +1111,11 @@ def user_details_update(request):
                     defaults={"mobile_no": mobile, "speciality": speciality}
                 )
 
-                return JsonResponse({"status": "success", "message": "User details updated successfully."})
+                return JsonResponse({"status": "success", "message": "User details updated successfully.",
+                                     "edited_data": {"user_id": user_id, "username": username, "email": email,
+                                                     "mobile_no": mobile,
+                                                     "Speciality": speciality, "first_name": firstname}
+                                     })
 
             except ObjectDoesNotExist:
                 return Response({"status": "Error", "message": "User not found."}, status=404)
