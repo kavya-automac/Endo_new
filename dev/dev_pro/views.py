@@ -2,6 +2,8 @@ import datetime
 import socket
 
 import requests
+
+from . import wifi_code
 from .models import *
 from .serializers import *
 
@@ -1213,20 +1215,16 @@ def internet_test(request):
 
 @api_view(['POST'])
 def wifi_test_rpi(request):
-    sid_data=request.data.get('sid')
-    password_data=request.data.get('password')
-    wifi_con_status = True
+    sid_data = request.data.get('sid')
+    password_data = request.data.get('password')
     try:
+        wifi_con_status = wifi_code.connect_to_wifi(sid_data, password_data)
         if wifi_con_status:
             return JsonResponse({"message": "connected"})
+        else:
+            return JsonResponse({"message": "failed to connect"}, status=500)
     except Exception as e:
-        return JsonResponse({"message": "disconnected","status": str(e)})
-
-
-
-
-
-
+        return JsonResponse({"message": "error", "details": str(e)}, status=500)
 
 
 def generate_frames():
