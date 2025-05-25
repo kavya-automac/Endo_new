@@ -43,9 +43,6 @@ class UserDetails(models.Model):
     def __str__(self):
         return str(self.user_id)
 
-
-
-
 class NewPatientsdetails(models.Model):
     objects = None
     DoesNotExist = None
