@@ -35,7 +35,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from .models import Patientreports, NewPatientreports
 # from .utils import DatabaseRouter, upload_file  # Assuming these utilities are defined
-
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
@@ -668,7 +669,23 @@ def login_view(request):
     if request.method == 'POST':
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            username = serializer.validated_data.get('username')
+            username_email = serializer.validated_data.get('username')
+
+            is_email = False
+            try:
+                validate_email(username_email)
+                is_email = True
+            except ValidationError:
+                pass
+
+            if is_email:
+                try:
+                    found_user = User.objects.get(email=username_email)
+                    username = found_user.username
+                except User.DoesNotExist:
+                    username = None
+            else:
+                username = username_email
             password = serializer.validated_data.get('password')
 
             print("Username:",username)
