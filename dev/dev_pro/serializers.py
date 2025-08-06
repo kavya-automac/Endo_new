@@ -13,10 +13,7 @@ class PatientsdetailsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class newPatientsdetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NewPatientsdetails
-        fields = '__all__'
+
 
 class PatientreportsSerializer(serializers.ModelSerializer):
     patient_name = serializers.CharField(source='patient_details_id.patient_name')
@@ -26,23 +23,11 @@ class PatientreportsSerializer(serializers.ModelSerializer):
 
 
 
-class newPatientreportsSerializer(serializers.ModelSerializer):
-    patient_name = serializers.CharField(source='patient_details_id.patient_name')
-    class Meta:
-        model = NewPatientreports
-        fields = ['id', 'patient_name', 'report_file', 'date', 'time']
-
-
-
 class Patient_save_report(serializers.ModelSerializer):
     class Meta:
         model = Patientreports
         fields = '__all__'
 
-class newPatient_save_report(serializers.ModelSerializer):
-    class Meta:
-        model = NewPatientreports
-        fields = '__all__'
 
 
 class ReportSerializers(serializers.ModelSerializer):
@@ -56,32 +41,13 @@ class PatientDetailSerializers(serializers.ModelSerializer):
         model = Patientsdetails
         fields = ['id','patient_name','age','gender','procedure','mobile','patient_email','referred','updated_at']
 
-class newPatientDetailSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = NewPatientsdetails
-        fields = ['id','patient_name','age','gender','procedure','mobile','patient_email','referred','updated_at']
-
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(error_messages={'blank': 'username_field_cannot_be_blank.'},required=True)
 
     password = serializers.CharField(error_messages={'blank': ' password_field_cannot_be_blank.'},required=True)
-
-
-
     class Meta:
         model = User
         fields = ['username','password']
-
-# class RegistrationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['firstname','speciality','username','password','mobile','email_id']
-
-
-
-
-
-
 
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:

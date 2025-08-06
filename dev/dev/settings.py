@@ -115,10 +115,6 @@ DATABASES = {
         'PASSWORD': 'raspberry',
         'HOST': 'localhost',
         'PORT': '5432',
-    },
-    'fallback': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Use the SQLite backend
-        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
