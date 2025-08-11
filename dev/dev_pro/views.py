@@ -522,6 +522,7 @@ def save_record(request):
         # Save the report and get its ID
         report.save()
         print("list of videos", len(list_of_videos))
+        print("Report ID",report.id)
 
         try:
             for video_file in list_of_images+list_of_videos:
@@ -539,7 +540,8 @@ def save_record(request):
             print("Video saved")
 
             return JsonResponse({
-                'status': 'record created successfully'
+                'status': 'record created successfully',
+                'record_id': report.id
             }, status=201)
 
         except Exception as e:
@@ -559,7 +561,9 @@ def patient_save_report(request):
         pdf_file_path1 = request.data.get('pdf_file_path')
         current_date = request.data.get('date')
         current_time = request.data.get('time')
+        record_id = request.data.get('record_id')
 
+        print('Record ID: ', record_id)
         print('Received pdf_file_path:', pdf_file_path1)
         print('Received date:', current_date)
         print('Received time:', current_time)
@@ -572,7 +576,7 @@ def patient_save_report(request):
             )
 
         # Local file paths
-        source_path = os.path.join(r'C:\Users\Vivek-Yoga\Downloads', str(pdf_file_path1))
+        source_path = os.path.join(r'C:\Users\HELLO DELL\Downloads', str(pdf_file_path1))
         # source_path = os.path.join(r'/home/pi/Downloads/', str(pdf_file_path1))
         destination_path = os.path.join(settings.MEDIA_ROOT, 'reports', str(pdf_file_path1))
         # print('destination_path:', destination_path)
@@ -597,28 +601,27 @@ def patient_save_report(request):
         print("Generated file URL:", file_url)
 
         try:
-            # Create the report entry in the appropriate database
-            report = Patientreports.objects.create(
-                patient_details_id_id=patient_details_id,
-                report_file=relative_path,  # Save relative path
-                date=current_date,
-                time=current_time
-            )
+            report = Patientreports.objects.get(pk=record_id)
 
-            # Save the report and get its ID
-            # Save the report and get its ID
+            # 2. Update the fields you need to change
+            report.patient_details_id_id = patient_details_id
+            report.report_file = relative_path
+            report.date = current_date
+            report.time = current_time
+
+            # 3. Save the updated object to the database
             report.save()
-            report_id = report.id
+            print("Report update to the record", record_id)
 
             return JsonResponse({
                 'status': 'report_created_successfully',
                 'file_url': file_url,
-                'report_id': report_id
+                'report_id': record_id
             }, status=201)
-
-        except Exception as e:
-            print("Exception occurred while saving to database:", e)
-            return JsonResponse({"status": f"Database write error: {str(e)}"}, status=500)
+        except Patientreports.DoesNotExist:
+            # Handle the case where the record with the given ID doesn't exist
+            print(f"Report with ID {record_id} does not exist.")
+            return JsonResponse({"status": f"Database write error"}, status=500)
 
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)})
