@@ -1,12 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.4250adcf.css",
-    "main.js": "/static/js/main.01f4f9cd.js",
+    "main.js": "/static/js/main.bfbe555b.js",
     "static/js/213.def817cb.chunk.js": "/static/js/213.def817cb.chunk.js",
     "static/js/732.448a4721.chunk.js": "/static/js/732.448a4721.chunk.js",
     "static/js/453.b08fae9d.chunk.js": "/static/js/453.b08fae9d.chunk.js",
     "static/media/intestine.png": "/static/media/intestine.16022567342eee0f36c7.png",
+    "static/media/image3.png.jpeg": "/static/media/image3.png.fa71240f354840f699cb.jpeg",
     "static/media/report.png": "/static/media/report.2ce769adad5db63e83ab.png",
+    "static/media/image2.png.jpeg": "/static/media/image2.png.b47eb9a6856af9b55115.jpeg",
+    "static/media/image4.png.jpeg": "/static/media/image4.png.e402e17f992238921f06.jpeg",
+    "static/media/image5.png.jpeg": "/static/media/image5.png.4712f90aab7d403364de.jpeg",
     "static/media/success.png": "/static/media/success.cef68b864006e666a395.png",
     "static/media/image 1619.jpg": "/static/media/image 1619.a07abaaa5c0edf007c2b.jpg",
     "static/media/OTP verification (1).jpg": "/static/media/OTP verification (1).4a5241ea264b0d2e78b3.jpg",
@@ -14,13 +18,13 @@
     "static/media/settings.png": "/static/media/settings.5a9b1f24255c107115bc.png",
     "index.html": "/index.html",
     "main.4250adcf.css.map": "/static/css/main.4250adcf.css.map",
-    "main.01f4f9cd.js.map": "/static/js/main.01f4f9cd.js.map",
+    "main.bfbe555b.js.map": "/static/js/main.bfbe555b.js.map",
     "213.def817cb.chunk.js.map": "/static/js/213.def817cb.chunk.js.map",
     "732.448a4721.chunk.js.map": "/static/js/732.448a4721.chunk.js.map",
     "453.b08fae9d.chunk.js.map": "/static/js/453.b08fae9d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4250adcf.css",
-    "static/js/main.01f4f9cd.js"
+    "static/js/main.bfbe555b.js"
   ]
 }
