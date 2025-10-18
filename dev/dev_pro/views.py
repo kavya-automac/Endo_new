@@ -577,8 +577,8 @@ def patient_save_report(request):
 
         # Local file paths
         # source_path = os.path.join(r'C:\Users\Vivek-Yoga\Downloads', str(pdf_file_path1))
-        # source_path = os.path.join(r'/home/pi/Downloads/', str(pdf_file_path1))
-        source_path = os.path.join(r'/home/lm-001/Downloads', str(pdf_file_path1))
+        source_path = os.path.join(r'/home/pi/Downloads/', str(pdf_file_path1))
+        # source_path = os.path.join(r'/home/lm-001/Downloads', str(pdf_file_path1))
         destination_path = os.path.join(settings.MEDIA_ROOT, 'reports', str(pdf_file_path1))
         # print('destination_path:', destination_path)
         # print('source_path:', source_path)
