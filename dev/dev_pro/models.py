@@ -15,7 +15,7 @@ class Patientsdetails(models.Model):
     mobile = models.CharField(max_length=20,null=False,unique=True)
 
     procedure = models.CharField(max_length=200, blank=True, null=True)
-    patient_email = models.EmailField(unique=True,blank=True,null=True)
+    patient_email = models.EmailField(blank=True,null=True)
     referred = models.CharField(max_length=100,blank=True,null=True)
     updated_at = models.DateTimeField(default=now)
 

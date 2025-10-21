@@ -1115,7 +1115,7 @@ def patient_details_update(request):
         mobile = request.data.get('mobile')
         patient_email = request.data.get('patient_email')
         referred = request.data.get('referred')
-        updated_at = request.data.get('updated_at')
+        # updated_at = request.data.get('updated_at')
 
         # Validate required fields
         if not patient_id:
@@ -1135,18 +1135,19 @@ def patient_details_update(request):
                 patient_data.age = age
             if gender:
                 patient_data.gender = gender
-            if procedure:
-                patient_data.procedure = procedure
             if mobile:
                 patient_data.mobile = mobile
-            if patient_email:
+
+            if procedure is not None:
+                patient_data.procedure = procedure
+            if patient_email is not None:
                 patient_data.patient_email = patient_email
-            if referred:
+            if referred is not None:
                 patient_data.referred = referred
             else:
                 pass
 
-            patient_data.updated_at = datetime.datetime.now()
+            # patient_data.updated_at = datetime.datetime.now()
 
             # Save the updated patient data
             patient_data.save()
