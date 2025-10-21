@@ -12,10 +12,11 @@ class Patientsdetails(models.Model):
     patient_name = models.CharField(max_length=100,null=False)
     age = models.IntegerField(null=False)
     gender = models.CharField(max_length=15,null=False)
-    procedure = models.CharField(max_length=200,null=True)
     mobile = models.CharField(max_length=20,null=False,unique=True)
-    patient_email = models.EmailField(unique=True)
-    referred = models.CharField(max_length=100)
+
+    procedure = models.CharField(max_length=200, blank=True, null=True)
+    patient_email = models.EmailField(unique=True,blank=True,null=True)
+    referred = models.CharField(max_length=100,blank=True,null=True)
     updated_at = models.DateTimeField(default=now)
 
     def __str__(self):

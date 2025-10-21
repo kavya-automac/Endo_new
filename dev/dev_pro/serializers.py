@@ -11,6 +11,11 @@ class PatientsdetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patientsdetails
         fields = '__all__'
+        extra_kwargs = {
+            'patient_email': {'required': False},
+            'procedure': {'required': False},
+            'referred': {'required': False},
+        }
 
 
 
