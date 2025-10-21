@@ -51,9 +51,9 @@ def some_safe_api_view(request):
 def add_patient(request):
     try:
         if request.method == 'POST':
-            patient_email = Patientsdetails.objects.filter(patient_email=request.data.get('patient_email'))
-            if patient_email.exists():
-                return JsonResponse({"status": "patient_already_exists"})
+        #     patient_email = Patientsdetails.objects.filter(patient_email=request.data.get('patient_email'))
+        #     if patient_email.exists():
+        #         return JsonResponse({"status": "patient_already_exists"})
             serializer = PatientsdetailsSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
