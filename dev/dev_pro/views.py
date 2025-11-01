@@ -51,9 +51,9 @@ def some_safe_api_view(request):
 def add_patient(request):
     try:
         if request.method == 'POST':
-        #     patient_email = Patientsdetails.objects.filter(patient_email=request.data.get('patient_email'))
-        #     if patient_email.exists():
-        #         return JsonResponse({"status": "patient_already_exists"})
+            # patient_email = Patientsdetails.objects.filter(patient_email=request.data.get('patient_email'))
+            # if patient_email.exists():
+            #     return JsonResponse({"status": "patient_already_exists"})
             serializer = PatientsdetailsSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -89,7 +89,7 @@ def delete_patients(request):
 def patient_report_file(request):
     try:
         params_id=request.query_params.get("patient_id")
-        reports = Patientreports.objects.filter(patient_details_id_id=params_id)
+        reports = Patientreports.objects.filter(patient_details_id_id=params_id).order_by('-id')
         # print('reports',reports[0].report_file)
 
         result=[]
@@ -119,6 +119,23 @@ def patient_report_file(request):
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)})
 
+@api_view(['DELETE'])
+def delete_patient_records(request):
+    try:
+
+        ids_to_delete = request.data.get('ids', [])  # Expects a list of ids to delete
+        if not ids_to_delete:
+            return JsonResponse({"status": "No_IDs_provided"}, status=status.HTTP_400_BAD_REQUEST)
+        patients = Patientreports.objects.filter(id__in=ids_to_delete)
+
+        if patients.exists():
+            patients.delete()
+            return JsonResponse({"status": "Reports_deleted_successfully"}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return JsonResponse({"status": "No_reports_found_with_the_provided_IDs"}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)})
 
 # @api_view(['POST'])
 # def patient_save_report(request):
@@ -485,6 +502,16 @@ def patient_report_file(request):
 #         print("Exception occurred while saving to database:", e)
 #         return JsonResponse({"status": f"Database write error: {str(e)}"}, status=500)
 
+@api_view(['PUT'])
+def update_record(request):
+    try:
+        print("Request RECEIVED")
+        return JsonResponse({"status": "Method not allowed"}, status=405)
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)})
+
+
 @api_view(['POST'])
 def save_record(request):
     try:
@@ -576,9 +603,8 @@ def patient_save_report(request):
             )
 
         # Local file paths
-        # source_path = os.path.join(r'C:\Users\Vivek-Yoga\Downloads', str(pdf_file_path1))
-        source_path = os.path.join(r'/home/pi/Downloads/', str(pdf_file_path1))
-        # source_path = os.path.join(r'/home/lm-001/Downloads', str(pdf_file_path1))
+        source_path = os.path.join(r'C:\Users\Vivek-Yoga\Downloads', str(pdf_file_path1))
+        # source_path = os.path.join(r'/home/pi/Downloads/', str(pdf_file_path1))
         destination_path = os.path.join(settings.MEDIA_ROOT, 'reports', str(pdf_file_path1))
         # print('destination_path:', destination_path)
         # print('source_path:', source_path)
@@ -1115,7 +1141,7 @@ def patient_details_update(request):
         mobile = request.data.get('mobile')
         patient_email = request.data.get('patient_email')
         referred = request.data.get('referred')
-        # updated_at = request.data.get('updated_at')
+        #updated_at = request.data.get('updated_at')
 
         # Validate required fields
         if not patient_id:
@@ -1137,7 +1163,6 @@ def patient_details_update(request):
                 patient_data.gender = gender
             if mobile:
                 patient_data.mobile = mobile
-
             if procedure is not None:
                 patient_data.procedure = procedure
             if patient_email is not None:
@@ -1147,7 +1172,7 @@ def patient_details_update(request):
             else:
                 pass
 
-            # patient_data.updated_at = datetime.datetime.now()
+            #patient_data.updated_at = datetime.datetime.now()
 
             # Save the updated patient data
             patient_data.save()

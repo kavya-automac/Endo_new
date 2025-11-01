@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.timezone import now
 
-
+#blank=False,null=True
 # Create your models here.
 class Patientsdetails(models.Model):
     objects = None
@@ -17,6 +17,7 @@ class Patientsdetails(models.Model):
     procedure = models.CharField(max_length=200, blank=True, null=True)
     patient_email = models.EmailField(blank=True,null=True)
     referred = models.CharField(max_length=100,blank=True,null=True)
+
     updated_at = models.DateTimeField(default=now)
 
     def __str__(self):
