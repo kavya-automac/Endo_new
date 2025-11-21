@@ -506,7 +506,7 @@ def delete_patient_records(request):
 def update_record(request):
     try:
         print("Request RECEIVED")
-        return JsonResponse({"status": "Method not allowed"}, status=405)
+        return JsonResponse({"status": "PUT Request received"})
 
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)})
@@ -603,10 +603,11 @@ def patient_save_report(request):
             )
 
         # Local file paths
-        # source_path = os.path.join(r'C:\Users\Vivek-Yoga\Downloads', str(pdf_file_path1))
+        # source_path = os.path.join(r'C:\Users\HELLO DELL\Downloads', str(pdf_file_path1))
+        # source_path = os.path.join(r'C:\Users\DELL\Downloads', str(pdf_file_path1))
         source_path = os.path.join(r'/home/pi/Downloads/', str(pdf_file_path1))
         destination_path = os.path.join(settings.MEDIA_ROOT, 'reports', str(pdf_file_path1))
-        # print('destination_path:', destination_path)
+        print('destination_path:', destination_path)
         # print('source_path:', source_path)
         time.sleep(5)
 
@@ -1128,70 +1129,108 @@ def user_details_update(request):
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)})
 
+#
+# @api_view(['PUT'])
+# def patient_details_update(request):
+#     try:
+#         # Extract data from request
+#         patient_id = request.data.get('patient_id')
+#         patient_name = request.data.get('patient_name')
+#         age = request.data.get('age')
+#         gender = request.data.get('gender')
+#         procedure = request.data.get('procedure')
+#         mobile = request.data.get('mobile')
+#         patient_email = request.data.get('patient_email')
+#         referred = request.data.get('referred')
+#         #updated_at = request.data.get('updated_at')
+#
+#         # Validate required fields
+#         if not patient_id:
+#             return Response(
+#                 {"status": "Error", "message": "'patient_id' is required to update patient details."},
+#                 status=400
+#             )
+#
+#         try:
+#             # Fetch the patient record
+#             patient_data = Patientsdetails.objects.get(id=patient_id)
+#
+#             # Update fields if they are provided
+#             if patient_name:
+#                 patient_data.patient_name = patient_name
+#             if age:
+#                 patient_data.age = age
+#             if gender:
+#                 patient_data.gender = gender
+#             if mobile:
+#                 patient_data.mobile = mobile
+#             if procedure is not None:
+#                 patient_data.procedure = procedure
+#             if patient_email is not None:
+#                 patient_data.patient_email = patient_email
+#             if referred is not None:
+#                 patient_data.referred = referred
+#             else:
+#                 pass
+#
+#             #patient_data.updated_at = datetime.datetime.now()
+#
+#             # Save the updated patient data
+#             patient_data.save()
+#
+#             return JsonResponse({"status": "success", "message": "Patient details updated successfully."})
+#
+#         except ObjectDoesNotExist:
+#             return Response(
+#                 {"status": "Error", "message": "Patient not found with the given 'patient_id'."},
+#                 status=404
+#             )
+#
+#         except Exception as e:
+#             return Response(
+#                 {"status": "Error", "message": f"An error occurred: {str(e)}"},
+#                 status=500
+#             )
+#     except Exception as e:
+#         return JsonResponse({"status": "error", "message": str(e)})
 
 @api_view(['PUT'])
 def patient_details_update(request):
     try:
-        # Extract data from request
-        patient_id = request.data.get('patient_id')
-        patient_name = request.data.get('patient_name')
-        age = request.data.get('age')
-        gender = request.data.get('gender')
-        procedure = request.data.get('procedure')
-        mobile = request.data.get('mobile')
-        patient_email = request.data.get('patient_email')
-        referred = request.data.get('referred')
-        #updated_at = request.data.get('updated_at')
+        patient_id = request.data.get("patient_id")
 
-        # Validate required fields
         if not patient_id:
             return Response(
-                {"status": "Error", "message": "'patient_id' is required to update patient details."},
+                {"status": "Error", "message": "'patient_id' is required."},
                 status=400
             )
 
         try:
-            # Fetch the patient record
-            patient_data = Patientsdetails.objects.get(id=patient_id)
-
-            # Update fields if they are provided
-            if patient_name:
-                patient_data.patient_name = patient_name
-            if age:
-                patient_data.age = age
-            if gender:
-                patient_data.gender = gender
-            if mobile:
-                patient_data.mobile = mobile
-            if procedure is not None:
-                patient_data.procedure = procedure
-            if patient_email is not None:
-                patient_data.patient_email = patient_email
-            if referred is not None:
-                patient_data.referred = referred
-            else:
-                pass
-
-            #patient_data.updated_at = datetime.datetime.now()
-
-            # Save the updated patient data
-            patient_data.save()
-
-            return JsonResponse({"status": "success", "message": "Patient details updated successfully."})
-
-        except ObjectDoesNotExist:
+            patient_instance = Patientsdetails.objects.get(id=patient_id)
+        except Patientsdetails.DoesNotExist:
             return Response(
-                {"status": "Error", "message": "Patient not found with the given 'patient_id'."},
+                {"status": "Error", "message": "Patient not found."},
                 status=404
             )
 
-        except Exception as e:
+        # Use serializer to update existing instance
+        serializer = PatientsdetailsSerializer(
+            patient_instance,
+            data=request.data,
+            partial=True  # allows partial update
+        )
+
+        if serializer.is_valid():
+            serializer.save()  # serializer will run update()
             return Response(
-                {"status": "Error", "message": f"An error occurred: {str(e)}"},
-                status=500
+                {"status": "success", "message": "Patient details updated successfully."},
+                status=200
             )
+
+        return Response(serializer.errors, status=400)
+
     except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)})
+        return Response({"status": "error", "message": str(e)}, status=500)
 
 
 @api_view(['GET'])

@@ -8,14 +8,29 @@ from rest_framework import serializers
 from .models import *
 
 class PatientsdetailsSerializer(serializers.ModelSerializer):
+    mobile = serializers.CharField(
+        validators=[]
+    )
+
     class Meta:
         model = Patientsdetails
         fields = '__all__'
-        extra_kwargs = {
-            'patient_email': {'required': False},
-            'procedure': {'required': False},
-            'referred': {'required': False},
-        }
+
+    def validate_mobile(self, value):
+        patient_id = self.instance.id if self.instance else None
+
+        # If creating → normal validation
+        if not patient_id:
+            if Patientsdetails.objects.filter(mobile=value).exists():
+                raise serializers.ValidationError("Mobile number already exists.")
+            return value
+
+        # If updating → exclude current instance
+        if Patientsdetails.objects.filter(mobile=value).exclude(id=patient_id).exists():
+            raise serializers.ValidationError("Mobile number already exists.")
+
+        return value
+
 
 
 
